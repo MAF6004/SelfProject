@@ -50,9 +50,7 @@ class Complaint {
 }
 
 function addTenant(name, apartment, creditScore, paymentStatus) {
-  const newTenant = new Tenant(name, apartment, creditScore,
-
-paymentStatus);
+  const newTenant = new Tenant(name, apartment, creditScore, paymentStatus);
   tenants.push(newTenant);
 }
 
