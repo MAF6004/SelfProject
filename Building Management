@@ -1,0 +1,161 @@
+const tenants = [];
+const apartments = [];
+const payments = [];
+const maintenanceRequests = [];
+const complaints = [];
+
+class Tenant {
+  constructor(name, apartment, creditScore, paymentStatus) {
+	this.name = name;
+	this.apartment = apartment;
+	this.creditScore = creditScore;
+	this.paymentStatus = paymentStatus;
+  }
+}
+
+class Apartment {
+  constructor(number, tenant, paymentDueDate, paymentStatus) {
+	this.number = number;
+	this.tenant = tenant;
+	this.paymentDueDate = paymentDueDate;
+	this.paymentStatus = paymentStatus;
+  }
+}
+
+class Payment {
+  constructor(tenant, apartment, amount, date) {
+	this.tenant = tenant;
+	this.apartment = apartment;
+	this.amount = amount;
+	this.date = date;
+  }
+}
+
+class MaintenanceRequest {
+  constructor(tenant, apartment, description, status) {
+	this.tenant = tenant;
+	this.apartment = apartment;
+	this.description = description;
+	this.status = status;
+  }
+}
+
+class Complaint {
+  constructor(tenant, apartment, description, status) {
+	this.tenant = tenant;
+	this.apartment = apartment;
+	this.description = description;
+	this.status = status;
+  }
+}
+
+function addTenant(name, apartment, creditScore, paymentStatus) {
+  const newTenant = new Tenant(name, apartment, creditScore,
+
+paymentStatus);
+  tenants.push(newTenant);
+}
+
+function addApartment(number, tenant, paymentDueDate, paymentStatus) {
+  const newApartment = new Apartment(number, tenant, paymentDueDate, paymentStatus);
+  apartments.push(newApartment);
+}
+
+function addPayment(tenant, apartment, amount, date) {
+  const newPayment = new Payment(tenant, apartment, amount, date);
+  payments.push(newPayment);
+}
+
+function addMaintenanceRequest(tenant, apartment, description, status) {
+  const newRequest = new MaintenanceRequest(tenant, apartment, description, status);
+  maintenanceRequests.push(newRequest);
+}
+
+function addComplaint(tenant, apartment, description, status) {
+  const newComplaint = new Complaint(tenant, apartment, description, status);
+  complaints.push(newComplaint);
+}
+
+function getTenant(name) {
+  return tenants.find(tenant => tenant.name === name);
+}
+
+function getApartment(number) {
+  return apartments.find(apartment => apartment.number === number);
+}
+
+function getPayments
+
+function getPaymentsForTenant(tenant) {
+  return payments.filter(payment => payment.tenant === tenant);
+}
+
+function getPaymentsForApartment(apartment) {
+  return payments.filter(payment => payment.apartment === apartment);
+}
+
+function getMaintenanceRequestsForTenant(tenant) {
+  return maintenanceRequests.filter(request => request.tenant === tenant);
+}
+
+function getMaintenanceRequestsForApartment(apartment) {
+  return maintenanceRequests.filter(request => request.apartment === apartment);
+}
+
+function getComplaintsForTenant(tenant) {
+  return complaints.filter(complaint => complaint.tenant === tenant);
+}
+
+function getComplaintsForApartment(apartment) {
+  return complaints.filter(complaint => complaint.apartment === apartment);
+}
+
+function sendEmailReminder(tenant, subject, message) {
+  // code to send email to tenant
+}
+
+function sendEmailReminderForContractRenewal(tenant) {
+  sendEmailReminder(tenant, 'Contract Renewal Reminder', 'This is a reminder that your tenancy contract is due for renewal. Please contact the management office to discuss renewing your contract.');
+}
+
+function sendEmailReminderForPayment(tenant) {
+  sendEmailReminder(tenant, 'Payment Reminder', 'This is a reminder that your payment is due. Please make sure to submit your payment on time to avoid any late fees or other consequences.');
+}
+
+function sendEmailForBirthday(tenant) {
+  sendEmailReminder(tenant, 'Happy Birthday!', 'Happy birthday from the management team! We hope you have a great day and a wonderful year ahead.');
+}
+
+function checkForOverduePayments() {
+  tenants.forEach(tenant => {
+	const tenantPayments = getPaymentsForTenant(tenant);
+	const overduePayments = tenantPayments.filter(payment => payment.date > tenant.apartment.paymentDueDate && payment.status === 'pending');
+	if (overduePayments.length > 0) {
+  	sendEmailReminderForPayment(tenant);
+	}
+  });
+}
+
+function checkForUpcomingContractRenewals() {
+  tenants.forEach(tenant => {
+	const timeUntilRenewal = tenant.apartment.contractEndDate - Date.now();
+	if (timeUntilRenewal < 30 * 24 * 60 * 60 * 1000) { // 30 days
+  	sendEmailReminderForContractRenewal(tenant);
+	}
+  });
+}
+
+function checkForBirthdays() {
+  tenants.forEach(tenant => {
+	const tenantBirthday = new Date(tenant.birthday);
+	const today = new Date();
+	if (tenantBirthday.getMonth() === today.getMonth() && tenantBirthday.getDate() === today.getDate()) {
+  	sendEmailForBirthday(tenant);
+	}
+  });
+}
+
+// run these functions regularly using a setInterval or setTimeout
+checkForOverduePayments();
+checkForUpcomingContractRenewals();
+checkForBirthdays();
